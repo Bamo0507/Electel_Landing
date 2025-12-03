@@ -1,0 +1,117 @@
+---
+import telecomField from "@assets/telecom_field.jpg";
+import electricField from "@assets/electric_field.jpg";
+import securityField from "@assets/security_field.jpg";
+---
+
+<section
+  id="work-areas"
+  class="relative bg-white px-4 py-16 sm:px-6 lg:px-8"
+>
+  <div class="mx-auto max-w-6xl">
+    <!-- Header -->
+    <div
+      class="mb-10 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)] lg:items-end"
+    >
+      <div>
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-primary">
+          Nuestras Especialidades
+        </p>
+        <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">
+          Tecnología y experiencia para potenciar tus ideas
+        </h2>
+      </div>
+      <p class="text-sm text-slate-600 sm:text-base lg:justify-self-end md:max-w-3xl">
+        Brindamos soluciones a medida en telecomunicaciones, 
+        electricidad y seguridad para todo tipo de instalaciones y sectores.
+      </p>
+    </div>
+
+    <!-- Cards -->
+    <div class="grid gap-6 md:grid-cols-3">
+      <!-- Telecomunicaciones -->
+      <article class="work-area-card flex flex-col gap-3">
+        <div class="aspect-[4/3] overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-200/70">
+          <img
+            src={telecomField.src}
+            alt="Torres y equipos de telecomunicaciones"
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex flex-col gap-2">
+          <h3 class="text-xl font-bold text-slate-900">
+            Telecomunicaciones
+          </h3>
+          <p class="text-sm text-slate-600">
+            Conectamos personas, empresas y comunidades a través de soluciones modernas en telecomunicaciones. Nos especializamos en instalación y mantenimiento de redes, torres de comunicación y sistemas de transmisión, asegurando una conectividad eficiente y continua.
+          </p>
+        </div>
+      </article>
+
+      <!-- Electricidad -->
+      <article class="work-area-card flex flex-col gap-3">
+        <div class="aspect-[4/3] overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-200/70">
+          <img
+            src={electricField.src}
+            alt="Trabajos de instalación eléctrica"
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex flex-col gap-2">
+          <h3 class="text-xl font-bold text-slate-900">
+            Electricidad
+          </h3>
+          <p class="text-sm text-slate-600">
+            Ofrecemos servicios eléctricos integrales, desde instalaciones residenciales e industriales hasta mantenimientos preventivos y correctivos. Garantizamos soluciones seguras, eficientes y adaptadas a las necesidades específicas de cada proyecto.
+          </p>
+        </div>
+      </article>
+
+      <!-- Sistemas de Seguridad -->
+      <article class="work-area-card flex flex-col gap-3">
+        <div class="aspect-[4/3] overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-200/70">
+          <img
+            src={securityField.src}
+            alt="Sistema de cámaras de seguridad y monitoreo"
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <div class="flex flex-col gap-2">
+          <h3 class="text-xl font-bold text-slate-900">
+            Sistemas de Seguridad
+          </h3>
+          <p class="text-sm text-slate-600">
+            Diseñamos e implementamos soluciones de seguridad electrónica como videovigilancia, control de acceso y sistemas de alarmas. Protegemos instalaciones críticas con proyectos a la medida, integración con la infraestructura existente y soporte técnico especializado.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+<script>
+  if (typeof window !== "undefined") {
+    const cards = document.querySelectorAll(".work-area-card");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            el.classList.add("work-area-card-visible");
+            observer.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    cards.forEach((card, index) => {
+      if (card instanceof HTMLElement) {
+        card.style.setProperty("--card-delay", `${index * 120}ms`);
+      }
+      observer.observe(card);
+    });
+  }
+</script>
