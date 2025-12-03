@@ -1,0 +1,217 @@
+---
+import "../styles/fonts.css";
+import "../styles/global.css";
+import { Image } from "astro:assets";
+import logo from "../assets/logo.png";
+---
+
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <title>Electel — Soluciones eléctricas modernas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <body class="antialiased">
+    <header class="fixed top-0 left-0 right-0 z-30 border-b border-transparent bg-transparent transition-all duration-300">
+      <nav class="mx-auto max-w-6xl px-4 py-3">
+        <div class="flex items-center justify-between">
+          <!-- Logo -->
+          <div class="flex items-center gap-3">
+            <a href="#home" class="flex items-center">
+              <Image
+                src={logo}
+                alt="Logo de Electel"
+                class="h-9 w-auto md:h-12"
+                loading="lazy"
+              />
+            </a>
+          </div>
+
+          <!-- Desktop links -->
+          <div class="hidden items-center gap-6 text-sm md:flex">
+            <a href="#home" class="nav-link text-sm font-medium">
+              Inicio
+            </a>
+            <a href="#about" class="nav-link text-sm font-medium">
+              Nosotros
+            </a>
+            <a href="#projects" class="nav-link text-sm font-medium">
+              Proyectos
+            </a>
+            <a href="#providers" class="nav-link text-sm font-medium">
+              Proveedores
+            </a>
+            <a href="#contact" class="nav-link text-sm font-medium">
+              Contáctanos
+            </a>
+          </div>
+
+          <!-- Mobile hamburger -->
+          <button
+            type="button"
+            class="relative z-50 inline-flex items-center justify-center rounded-full p-2 focus:outline-none md:hidden cursor-pointer transition-colors"
+            data-mobile-toggle
+            aria-label="Abrir menú de navegación"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu">
+              <path d="M4 5h16" />
+              <path d="M4 12h16" />
+              <path d="M4 19h16" />
+            </svg>
+          </button>
+        </div>
+
+      </nav>
+    </header>
+
+    <!-- Mobile overlay -->
+    <div
+      id="mobile-overlay"
+      class="fixed inset-0 z-40 hidden bg-black/1 backdrop-blur-sm md:hidden"
+    ></div>
+
+    <!-- Mobile drawer -->
+    <div
+      data-mobile-drawer
+      class="fixed right-0 top-0 z-50 flex h-screen w-72 max-w-[80%] translate-x-full transform flex-col bg-white/95 shadow-2xl border-l border-slate-200 px-6 py-6 transition-transform duration-300 overflow-y-auto"
+    >
+      <!-- Close button -->
+      <div class="flex justify-end mb-6">
+        <button
+          type="button"
+          class="inline-flex h-9 w-9 transition ease-in items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--primary)_16%,white)] text-slate-900 shadow-sm hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-primary"
+          data-mobile-close
+          aria-label="Cerrar menú de navegación"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Nav links -->
+      <nav class="flex flex-col gap-5 pt-2 text-xl font-bold text-slate-900">
+        <a href="#home" class="nav-drawer-link text-slate-800 hover:text-primary py-2 block">
+          Inicio
+        </a>
+        <a href="#about" class="nav-drawer-link text-slate-800 hover:text-primary py-2 block">
+          Nosotros
+        </a>
+        <a href="#projects" class="nav-drawer-link text-slate-800 hover:text-primary py-2 block">
+          Proyectos
+        </a>
+        <a href="#providers" class="nav-drawer-link text-slate-800 hover:text-primary py-2 block">
+          Proveedores
+        </a>
+        <a href="#contact" class="nav-drawer-link text-slate-800 hover:text-primary py-2 block">
+          Contáctanos
+        </a>
+      </nav>
+    </div>
+
+    <main>
+      <slot />
+    </main>
+
+    <script>
+      if (typeof window !== "undefined") {
+        const header = document.querySelector("header");
+        const root = document.documentElement;
+        const mobileToggle = document.querySelector<HTMLButtonElement>("[data-mobile-toggle]");
+        const mobileOverlay = document.querySelector<HTMLDivElement>("#mobile-overlay");
+        const mobileDrawer = document.querySelector<HTMLDivElement>("[data-mobile-drawer]");
+        const mobileClose = document.querySelector<HTMLButtonElement>("[data-mobile-close]");
+
+        const handleScroll = () => {
+          if (!header) return;
+
+          if (window.scrollY > 20) {
+            header.classList.add("bg-white/95", "shadow-lg", "border-slate-200");
+            header.classList.remove("bg-transparent", "border-transparent");
+            root.classList.add("nav-scrolled");
+          } else {
+            header.classList.remove("shadow-lg", "bg-white/95", "border-slate-200");
+            header.classList.add("bg-transparent", "border-transparent");
+            root.classList.remove("nav-scrolled");
+          }
+        };
+
+        // Función para abrir el menú móvil
+        const openMobileMenu = () => {
+          if (!mobileOverlay || !mobileDrawer) return;
+          // Mostrar el overlay
+          mobileOverlay.classList.remove("hidden");
+          // Forzar un reflow para que la animación funcione
+          void mobileOverlay.offsetHeight;
+          // Quitar la clase que oculta el drawer
+          mobileDrawer.classList.remove("translate-x-full");
+          // Deshabilitar el scroll del body
+          document.body.style.overflow = 'hidden';
+        };
+
+        // Función para cerrar el menú móvil
+        const closeMobileMenu = () => {
+          if (!mobileOverlay || !mobileDrawer) return;
+          // Mover el drawer fuera de la pantalla
+          mobileDrawer.classList.add("translate-x-full");
+          // Esperar a que termine la animación para ocultar el overlay
+          const handleTransitionEnd = () => {
+            mobileOverlay.classList.add("hidden");
+            document.body.style.overflow = '';
+            mobileDrawer.removeEventListener("transitionend", handleTransitionEnd);
+          };
+          mobileDrawer.addEventListener("transitionend", handleTransitionEnd, { once: true });
+        };
+
+        // Manejador de clic para el botón de hamburguesa
+        mobileToggle?.addEventListener("click", (e) => {
+          e.stopPropagation(); // Prevenir la propagación del evento
+          if (!mobileOverlay || !mobileDrawer) return;
+          
+          const isHidden = mobileOverlay.classList.contains("hidden");
+          if (isHidden) {
+            openMobileMenu();
+          } else {
+            closeMobileMenu();
+          }
+        });
+
+        // Cerrar el menú al hacer clic fuera
+        mobileOverlay?.addEventListener('click', (e) => {
+          if (e.target === mobileOverlay) {
+            closeMobileMenu();
+          }
+        });
+
+        mobileClose?.addEventListener("click", () => {
+          closeMobileMenu();
+        });
+
+        if (mobileOverlay) {
+          mobileOverlay.addEventListener("click", (event: MouseEvent) => {
+            if (event.target === mobileOverlay) {
+              closeMobileMenu();
+            }
+          });
+        }
+
+        if (mobileDrawer) {
+          const drawerLinks = mobileDrawer.querySelectorAll<HTMLAnchorElement>("a");
+          drawerLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+              closeMobileMenu();
+            });
+          });
+        }
+
+        window.addEventListener("scroll", () => {
+          handleScroll();
+        });
+
+        handleScroll();
+      }
+    </script>
+  </body>
+</html>

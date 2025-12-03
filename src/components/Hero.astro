@@ -1,0 +1,108 @@
+---
+import { Image } from "astro:assets";
+import heroMain from "../assets/hero-main.jpg";
+import heroDetail from "../assets/hero-detail.jpg";
+---
+
+<section
+  id="home"
+  class="relative flex min-h-screen items-center overflow-hidden bg-slate-900"
+>
+  <!-- Fondo con imagen optimizada de Astro -->
+  <div class="pointer-events-none absolute inset-0">
+    <Image
+      src={heroMain}
+      alt="Solar panels and wind turbines"
+      class="h-full w-full object-cover"
+      loading="eager"
+      format="webp"
+    />
+    <!-- Capa oscura superpuesta -->
+    <div class="absolute inset-0 bg-linear-to-r from-slate-900/45 to-slate-900/40" />
+  </div>
+
+  <div class="relative mx-auto flex max-w-4xl flex-col items-center justify-center gap-10 px-4 py-12 text-center lg:py-16">
+    <!-- Contenido centrado -->
+    <div class="w-full space-y-6">
+      <div class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-extrabold text-white/85 ring-1 ring-primary/60">
+        <span class="h-1.5 w-1.5 rounded-full bg-white" />
+        Tu aliado #1 en soluciones eléctricas
+      </div>
+
+      <h1 class="font-heading text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
+        Nueva Energía
+        <span class="block text-primary">para un Futuro Mejor</span>
+      </h1>
+
+      <p class="max-w-xl mx-auto text-base text-white font-medium sm:text-lg">
+        Diseñamos e instalamos soluciones eléctricas y sistemas 
+        solares de alto rendimiento para hogares, negocios y proyectos
+        industriales — con seguridad, eficiencia y un compromiso real 
+        con la sostenibilidad a largo plazo.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <button class="rounded-full cursor-pointer bg-primary px-6 py-2 text-sm font-medium text-black shadow-lg shadow-primary/20 hover:bg-primary-soft transition-all duration-300 ease-in-out">
+          Contáctanos
+        </button>
+        <button class="rounded-full cursor-pointer border border-black/10 bg-white/60 px-6 py-2 text-sm font-medium text-black/70 hover:bg-white hover:border-black/20 transition-all duration-300 ease-in-out">
+          Nuestros servicios
+        </button>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-6 pt-4 text-xs text-white/80 sm:text-sm">
+        <div>
+          <div class="font-heading text-xl font-semibold text-white count-up" data-target="10">
+            0
+          </div>
+          <div class="text-sm font-extrabold">Experiencia en proyectos eléctricos</div>
+        </div>
+        <div>
+          <div class="font-heading text-xl font-semibold text-white count-up" data-target="500">
+            0
+          </div>
+          <div class="text-sm font-extrabold">Instalaciones comerciales y residenciales</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    if (typeof window !== "undefined") {
+      const counters = document.querySelectorAll<HTMLElement>(".count-up");
+      let hasRun = false;
+
+      const animate = (el: HTMLElement, target: number) => {
+        const duration = 1800;
+        const start = performance.now();
+        const step = (now: number) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const value = Math.floor(progress * target);
+          if (progress < 1) {
+            el.textContent = value.toString();
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = target + "+";
+          }
+        };
+        requestAnimationFrame(step);
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !hasRun) {
+              counters.forEach((el) => {
+                const target = parseInt(el.getAttribute("data-target") || "0");
+                animate(el, target);
+              });
+              hasRun = true;
+            }
+          });
+        },
+        { threshold: 0.4 }
+      );
+
+      counters.forEach((el) => observer.observe(el));
+    }
+  </script>
+</section>
