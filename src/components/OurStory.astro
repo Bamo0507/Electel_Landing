@@ -1,0 +1,167 @@
+---
+import history from "@assets/history.jpg";
+---
+<section
+  id="historia"
+  class="relative isolate overflow-hidden bg-slate-900 text-white"
+>
+    {/* Background image + gradient overlay.
+        Cambia la URL del background según el asset que tengas para esta sección. */}
+    <div class="pointer-events-none absolute inset-0 -z-10">
+        <div
+        class="absolute inset-0 bg-cover bg-center"
+        style={`background-image: url(${history.src});`}
+        aria-hidden="true"
+        ></div>
+        <div
+        class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/75 to-black/40"
+        aria-hidden="true"
+        ></div>
+    </div>
+
+    <div class="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <div class="max-w-xl story-reveal">
+        {/* Badge / sección */}
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--primary)]">
+            Sobre Nosotros
+        </p>
+
+        {/* Título principal */}
+        <h2 class="text-3xl font-bold sm:text-4xl">
+            Historia de <span class="text-[var(--primary)]">Electel S.A.</span>
+        </h2>
+
+        {/* Divider */}
+        <div class="mt-4 h-1 w-16 rounded-full bg-[var(--primary)]/90"></div>
+
+        {/* Párrafo descriptivo */}
+        <p class="mt-6 text-sm leading-relaxed text-slate-100/90 sm:text-base">
+            ELECTEL S.A. es una empresa líder en servicios de telecomunicaciones y
+            electricidad en Guatemala. Fundada en 1992 en el barrio Ferrocarrilera de
+            Mazatenango, Suchitepéquez, hemos estado sirviendo a clientes domésticos,
+            urbanos y rurales durante más de 30 años. Nuestro equipo de expertos
+            cuenta con la experiencia y habilidades necesarias para cubrir todas sus
+            necesidades eléctricas, desde instalaciones hasta reparaciones y
+            mantenimiento.
+        </p>
+
+        {/* Stats + CTA */}
+        <div class="mt-8 flex flex-wrap items-center gap-8">
+            <div class="flex flex-wrap gap-8">
+            {/* 1992 */}
+            <div class="min-w-[6rem]">
+                <p class="story-counter text-2xl font-bold sm:text-3xl" data-target="1992">0</p>
+                <p class="mt-1 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-slate-200/80">
+                Año de Establecimiento
+                </p>
+            </div>
+
+            {/* 100+ */}
+            <div class="min-w-[6rem]">
+                <p class="story-counter text-2xl font-bold sm:text-3xl" data-target="100">0+</p>
+                <p class="mt-1 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-slate-200/80">
+                Proyectos Completados
+                </p>
+            </div>
+
+            {/* 30+ */}
+            <div class="min-w-[6rem]">
+                <p class="story-counter text-2xl font-bold sm:text-3xl" data-target="30">0+</p>
+                <p class="mt-1 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-slate-200/80">
+                Socios Comerciales
+                </p>
+            </div>
+            </div>
+
+            {/* CTA */}
+            <div class="mt-4 flex w-full justify-start md:mt-0 md:w-auto">
+            <a
+                href="#contacto"
+                class="inline-flex items-center justify-center rounded-full bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-slate-900 shadow-md shadow-black/30 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[var(--primary-soft)] hover:shadow-lg"
+            >
+                Conoce Más
+            </a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <style>
+        .story-reveal {
+        opacity: 0;
+        transform: translateY(18px);
+        transition: opacity 600ms ease-out, transform 600ms ease-out;
+        }
+
+        .story-reveal-visible {
+        opacity: 1;
+        transform: translateY(0);
+        }
+    </style>
+
+    <script>
+        if (typeof window !== "undefined") {
+        const section = document.querySelector(".story-reveal");
+
+        if (section) {
+            const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("story-reveal-visible");
+                    observer.unobserve(entry.target);
+                }
+                });
+            },
+            { threshold: 0.25 }
+            );
+
+            observer.observe(section);
+        }
+
+        // Increment animated counters
+        const counters = document.querySelectorAll(".story-counter");
+
+        // Update the function signature to accept Element
+        function animateCounter(el: Element) {
+        const target = parseInt((el as HTMLElement).getAttribute("data-target") || "0", 10);
+        let current = 0;
+        const steps = 80;
+        const increment = target / steps;
+
+        const update = () => {
+            current += increment;
+
+            if (current >= target) {
+            const finalText = el.textContent?.includes("+") ? `${target}+` : `${target}`;
+            el.textContent = finalText;
+            } else {
+            const formatted = Math.floor(current);
+            const interimText = el.textContent?.includes("+") ? `${formatted}+` : `${formatted}`;
+            el.textContent = interimText;
+            requestAnimationFrame(update);
+            }
+        };
+
+        requestAnimationFrame(update);
+        }
+
+        // Trigger counters when section becomes visible
+        if (section) {
+            const counterObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    counters.forEach((c) => animateCounter(c as HTMLElement));
+                    counterObserver.unobserve(entry.target);
+                }
+                });
+            },
+            { threshold: 0.3 }
+            );
+
+            counterObserver.observe(section);
+        }
+        }
+    </script>
+</section>
