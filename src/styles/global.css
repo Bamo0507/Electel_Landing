@@ -263,3 +263,139 @@ html.nav-scrolled .nav-link::after {
   opacity: 1;
   transform: translateY(0);
 }
+
+.clients-slider {
+  margin-top: 2.5rem;
+  overflow: hidden;
+  position: relative;
+  min-height: 140px;
+}
+
+.clients-slider-inner {
+  position: relative;
+  width: 100%;
+}
+
+.clients-slider-track {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding-block: 1.25rem;
+  width: max-content;
+  animation: clients-marquee 32s linear infinite;
+}
+
+.clients-slider:hover .clients-slider-track {
+  animation-play-state: paused;
+}
+
+.clients-card {
+  flex: 0 0 auto;
+  min-width: 13rem;
+  border-radius: 1rem;
+  background-color: oklch(0.985 0 0);
+  border: 1px solid oklch(0.922 0 0);
+  padding: 1.75rem 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+  transform: translateY(0);
+  transition:
+    transform 250ms ease-out,
+    box-shadow 250ms ease-out,
+    background-color 250ms ease-out,
+    border-color 250ms ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.clients-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5px;
+    background-color: var(--primary);
+
+    /* Usa exactamente el mismo borde que la carta */
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+
+    /* Animación */
+    transform-origin: center;
+    transform: scaleX(0);
+    opacity: 0;
+    transition:
+        transform 220ms ease-out,
+        opacity 220ms ease-out;
+}
+
+.clients-card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 10rem;
+}
+
+.clients-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  background-color: white;
+  border-color: color-mix(in oklab, var(--primary) 45%, white);
+  box-shadow:
+      0 20px 45px rgba(15, 23, 42, 0.18),
+      0 0 22px var(--primary / 0.35);
+}
+
+.clients-card:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+@keyframes clients-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 640px) {
+  .clients-card {
+    min-width: 9rem;
+    padding-inline: 1.5rem;
+  }
+
+  .clients-card-inner {
+    max-width: 8.5rem;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fade-in-up 700ms ease-out forwards;
+}
+
+.clients-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 800ms ease-out, transform 800ms ease-out;
+  }
+
+.clients-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -3,6 +3,7 @@ import "../styles/fonts.css";
 import "../styles/global.css";
 import { Image } from "astro:assets";
 import logo from "../assets/logo.png";
+import Footer from "../components/Footer.astro";
 ---
 
 <html lang="es" class="scroll-smooth">
@@ -113,6 +114,7 @@ import logo from "../assets/logo.png";
 
     <main>
       <slot />
+      <Footer />
     </main>
 
     <script>

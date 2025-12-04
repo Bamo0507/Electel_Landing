@@ -1,0 +1,83 @@
+---
+import casaLogo from "../assets/casa_logo.png";
+import cengicaniaLogo from "../assets/cengicania_logo.png";
+import cobanLogo from "../assets/coban_logo.webp";
+import conectaLogo from "../assets/conecta_logo.png";
+import envasealLogo from "../assets/envaseal_logo.png";
+import igssLogo from "../assets/igss_logo.jpg";
+import indeLogo from "../assets/inde_logo.webp";
+
+const clients = [
+  { src: casaLogo, name: "Casa" },
+  { src: cengicaniaLogo, name: "Cengicaña" },
+  { src: cobanLogo, name: "Coban" },
+  { src: conectaLogo, name: "Conecta" },
+  { src: envasealLogo, name: "Envaseal" },
+  { src: igssLogo, name: "IGSS" },
+  { src: indeLogo, name: "INDE" },
+];
+---
+
+<section
+  id="clientes"
+  class="relative bg-white px-4 py-16 sm:px-6 lg:px-8"
+>
+  <div class="mx-auto max-w-6xl text-center clients-reveal">
+    <p class="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+      Nuestros Clientes
+    </p>
+    <h2 class="text-3xl font-bold text-slate-900 sm:text-4xl">
+      Empresas que confían en nosotros
+    </h2>
+    <div class="mx-auto mt-4 h-1 w-20 rounded-full bg-[var(--primary)]/90" />
+    <p class="mx-auto mt-4 max-w-2xl text-sm text-slate-600 sm:text-base">
+      Hemos desarrollado proyectos para organizaciones públicas y privadas en distintos sectores,
+      construyendo relaciones a largo plazo basadas en confianza, calidad y responsabilidad técnica.
+    </p>
+  </div>
+
+  <div class="mt-10 clients-slider">
+    <div class="clients-slider-inner">
+      <div class="clients-slider-track">
+        {clients.concat(clients).map((client, index) => (
+          <article
+            class="clients-card group"
+            aria-label={`Cliente: ${client.name}`}
+            data-client={client.name}
+          >
+            <div class="clients-card-inner">
+              <img
+                src={client.src.src}
+                alt={client.name}
+                loading="lazy"
+                class="h-16 w-auto object-contain sm:h-20"
+              />
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  if (typeof window !== "undefined") {
+    const clientsBlock = document.querySelector("#clientes .clients-reveal");
+
+    if (clientsBlock) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("clients-reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.25 }
+      );
+
+      observer.observe(clientsBlock);
+    }
+  }
+</script>
