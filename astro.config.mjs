@@ -21,5 +21,5 @@ export default defineConfig({
     }
   },
   site: 'https://Bamo0507.github.io',
-  base: '/Electel_Landing/'
+  base: '/Electel_Landing'
 });
