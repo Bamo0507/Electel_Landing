@@ -20,5 +20,6 @@ export default defineConfig({
       }
     }
   },
-  integrations: [react()]
+  site: 'https://Bamo0507.github.io',
+  base: '/Electel_Landing/'
 });
